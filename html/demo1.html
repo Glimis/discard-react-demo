@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <title>React.render</title>
+    <script src="../../build/react.js"></script>
+    <script src="../../build/JSXTransformer.js"></script>
+</head>
+
+<body>
+    <div id="test"><span>111</span>
+        <p>123123</p>
+    </div>
+    <hr>
+    <p>React.render通过传递html结构和dom节点,将节点的innerHtml转换</p>
+    <script type="text/jsx">
+        React.render(
+        <h1>Hello, world!</h1>, document.getElementById('test') );
+    </script>
+</body>
+
+</html>
