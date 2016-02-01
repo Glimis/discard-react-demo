@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <title>React.render</title>
+    <script src="../../build/react.js"></script>
+    <script src="../../build/JSXTransformer.js"></script>
+</head>
+
+<body>
+</body>
+<script type="text/jsx">
+    var MyComponent = React.createClass({ handleClick: function() { 
+      this.refs.num.getDOMNode().innerHTML=++this.num;
+      this.refs.myTextInput.getDOMNode().focus(); 
+
+      console.log("this.refs.title1:",this.refs.title1.refs);
+       console.log("this.refs.title2:",this.refs.title2.refs);
+      this.refs.title2.refs.num.getDOMNode().innerHTML=this.num;
+    }, 
+    render: function() { this.num=0; return (
+    <div>
+        <div ref='title1'>
+            <p>这是第<span ref='num'>0</span>次点击</p>
+        </div>
+        <Title ref='title2'></Title>
+        <input type="text" ref="myTextInput" />
+        <input type="button" value="Focus the text input" onClick={this.handleClick} />
+    </div>
+    ); } }); 
+
+        var Title = React.createClass({
+    render: function() { this.num=0; return (
+      <div >
+            <p>这是第<span ref='num'>0</span>次点击</p>
+        </div>
+    ); } }); 
+    React.render(
+    <MyComponent />, document.body );
+</script>
+
+</html>

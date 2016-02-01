@@ -15,17 +15,20 @@
 var MyTitle = React.createClass({
   getDefaultProps : function () {
     return {
-      title : 'Hello World'
+      title1 : 'title1',
+      title2 :'title2' 
     };
   },
-
   render: function() {
-     return <h1> {this.props.title} </h1>;
+     return (<div>
+       <h1> {this.props.title1} </h1>
+       <h1> {this.props.title2} </h1>
+     </div>);
    }
 });
-
+var title1=null,title2;
 React.render(
-  <MyTitle />,
+  <MyTitle title1={title1}  title2={title2} />,
   document.body
 );
 
