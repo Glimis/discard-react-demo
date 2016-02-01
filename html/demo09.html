@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <title>React.render</title>
+    <script src="../../build/react.js"></script>
+    <script src="../../build/JSXTransformer.js"></script>
+</head>
+
+<body>
+</body>
+<script type="text/jsx">
+
+var Input = React.createClass({
+  getInitialState: function() {
+    return {value: 'Hello!'};
+  },
+  handleChange: function(event) {
+    this.setState({value: event.target.value});
+  },
+  handleChange2: function(event) {
+    debugger
+    this.setProps({value: event.target.value});
+  },
+  render: function () {
+    var value = this.state.value;
+    var value2=this.props.value;
+    return (
+      <div>
+        <input type="text" value={value} onChange={this.handleChange} />
+        <p>{value}</p>
+        <input type="text" value={value2} onChange={this.handleChange2} />
+        <p>{value2}</p>
+      </div>
+    );
+  }
+});
+
+React.render(<Input value="v2"/>, document.body);
+</script>
+
+</html>

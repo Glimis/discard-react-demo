@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <title>React.render</title>
+    <script src="../../build/react.js"></script>
+    <script src="../../build/JSXTransformer.js"></script>
+</head>
+
+<body>
+</body>
+<script type="text/jsx">
+var Hello = React.createClass({
+  getInitialState: function () {
+    return {
+      opacity: 1.0
+    };
+  },
+componentWillMount:function(){
+  console.log("插入前,第一次初始化",arguments)
+},
+  componentDidMount: function () {
+     console.log("插入后,第一次初始化",arguments)
+    // this.timer = setInterval(function () {
+    //   var opacity = this.state.opacity;
+    //   opacity -= .05;
+    //   if (opacity < 0.1) {
+    //     opacity = 1.0;
+    //   }
+    //   this.setState({
+    //     opacity: opacity
+    //   });
+    // }.bind(this), 100);
+  },
+componentWillUpdate:function( nextProps,  nextState){
+ console.log("render前",arguments)
+
+},
+componentDidUpdate:function( prevProps,  prevState){
+ console.log("render后",arguments)
+
+},
+componentWillUnmount:function(){
+ console.log("移除dom",arguments)
+},
+click:function(){
+  this.setProps({
+    name:'asd'+(~~(Math.random()*100))
+  })
+},
+click2:function(){
+//如何删除。。。
+},
+  render: function () {
+    return (
+      <div style={{opacity: this.state.opacity}}>
+        Hello {this.props.name}
+        <input type="button" value="点击" ref="click" onClick={this.click} />
+        <input type="button" value="删除" onClick={this.click2} />
+      </div>
+    );
+  }
+});
+
+React.render(
+  <Hello name="world"/>,
+  document.body
+);
+</script>
+
+</html>

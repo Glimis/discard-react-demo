@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <title>React.render</title>
+    <script src="../../build/react.js"></script>
+    <script src="../../build/JSXTransformer.js"></script>
+    <script src="../../build/jquery.js"></script>
+</head>
+
+<body>
+</body>
+<script type="text/jsx">
+var UserGist = React.createClass({
+  getInitialState: function() {
+    return {
+      username: '',
+      lastGistUrl: ''
+    };
+  },
+
+  componentDidMount: function() {
+    $.get(this.props.source, function(result) {
+      console.log(result);
+      var lastGist = result[0];
+      if (this.isMounted()) {
+        this.setState({
+          list:result,
+          username: lastGist.owner.login,
+          lastGistUrl: lastGist.html_url
+        });
+      }
+    }.bind(this));
+  },
+
+  render: function() {
+    var html;
+    if(!this.state.list||this.state.list.length==0){
+      html=<div>loding</div>;
+    }else{
+      html=(<div>{this.state.username}s last gist is <a href={this.state.lastGistUrl}>here</a>
+        <hr/>
+        {
+          React.Children.map(this.state.list,function(val,index){
+              return <div>{val}</div>
+          })
+        }
+        </div>);
+      }
+      return (
+      <div>
+          {html}
+      </div>
+    );}
+});
+
+React.render(
+  <UserGist source="https://api.github.com/users/octocat/gists" />,
+  document.body
+);
+</script>
+
+</html>

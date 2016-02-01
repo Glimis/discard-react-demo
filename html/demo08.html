@@ -16,20 +16,29 @@
     return {aaa: false};
   },
   handleClick: function(event) {
-    this.setState({aaa: !this.state.aaa});
+    this.setState({bbb:~~(Math.random()*100)});
+  },
+    handleClick2: function(event) {
+    this.setProps({aaa:~~(Math.random()*100)});
   },
   render: function() {
-    var text = this.state.aaa ? 'like' : 'haven\'t liked';
+      console.log("渲染"+this.state);
     return (
+      <div>
       <p onClick={this.handleClick}>
-        You {text} this. Click to toggle.
+        You  {this.state.bbb} this. Click to toggle.
       </p>
+        <p onClick={this.handleClick2}>
+        You  {this.props.aaa} this. Click to toggle.
+      </p>
+      </div>
     );
   }
 });
 
+var num =~~(Math.random()*100);
 React.render(
-  <LikeButton />,
+  <LikeButton aaa={num} />,
   document.body
 );
 </script>
