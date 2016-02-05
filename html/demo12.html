@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <title>React.render</title>
+    <script src="../../build/react.js"></script>
+    <script src="../../build/JSXTransformer.js"></script>
+    <script src="../../build/jquery.js"></script>
+
+    <link rel="stylesheet/less" href="box.less" />
+     <script src="../../build/less.js"></script>
+</head>
+
+<body>
+
+<div id="box"></div>
+
+</body>
+
+<script type="text/jsx">
+var Box = React.createClass({
+  render: function() {
+        var losed=this.props.losed,
+            text=this.props._col+this.props.col*this.props._row;
+        if(text===losed){
+          return (<div className='box losed'>{text}</div>)
+        }else{
+          return (<div className='box'>{text}</div>)
+        }
+    }
+});
+
+
+var RowBox = React.createClass({
+    getDefaultProps : function () {
+    return {
+      row:1,
+      col :3
+    };
+  },
+  render: function() {
+      var col=this.props.col;
+      var html=[];
+  
+      for(var i=0;i<col;i++){
+          html.push(<Box losed={this.props.losed} _col={i} _row={this.props._row} col={col}  row={this.props.row}/>);
+      }
+
+      return <div className="row clearfix">{html}</div>
+    },
+
+});
+
+
+var Boxs = React.createClass({
+  getDefaultProps : function () {
+    return {
+      row :5,
+      col:5,
+      losed:24
+    };
+  },
+  render: function() {
+      var row=this.props.row,
+          html=[];
+
+      for(var i=0;i<row;i++){
+          html.push(<RowBox _row={i} row={row} col={this.props.col} losed={this.props.losed}/>);
+      }
+      return <div  tabIndex="-1" onKeyDown={this.onKeyDown} className="boxs">{html}</div>
+    }
+});
+
+
+
+
+
+React.render(
+  <Boxs  />,
+  document.getElementById('box')
+);
+
+
+</script>
+
+</html>

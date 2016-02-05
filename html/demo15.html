@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <title>React.render</title>
+    <script src="../../build/react.js"></script>
+    <script src="../../build/react-with-addons.min.js"></script>
+    
+    <script src="../../build/JSXTransformer.js"></script>
+    <script src="../../build/jquery.js"></script>
+
+    <link rel="stylesheet/less" href="box.less" />
+     <script src="../../build/less.js"></script>
+</head>
+
+<body>
+
+</body>
+
+<script type="text/jsx">
+var Box = React.createClass({
+  render: function() {
+        var losed=this.props.losed,
+            text=this.props._col+this.props.col*this.props._row;
+        if(text==losed){
+          return (<div className='box losed'>{text}</div>)
+        }else{
+          return (<div className='box'>{text}</div>)
+        }
+    }
+});
+
+
+var RowBox = React.createClass({
+    getDefaultProps : function () {
+    return {
+      row:1,
+      col :3
+    };
+  },
+  render: function() {
+      var col=this.props.col;
+      var html=[];
+  
+      for(var i=0;i<col;i++){
+          html.push(<Box losed={this.props.losed} _col={i} _row={this.props._row} col={col}  row={this.props.row}/>);
+      }
+
+      return <div className="row clearfix">{html}</div>
+    },
+
+});
+
+
+var Boxs = React.createClass({
+  getInitialState : function () {
+    return {
+      row :5,
+      col:5,
+      losed:24
+    };
+  },
+  render: function() {
+      var row=this.state.row,
+          html=[];
+
+      for(var i=0;i<row;i++){
+          html.push(<RowBox _row={i} row={row} col={this.state.col} losed={this.state.losed}/>);
+      }
+      return <div  tabIndex="-1" onKeyDown={this.onKeyDown} className="boxs">{html}</div>
+    },
+    onKeyDown:function(e){
+      var state;
+        if(e.keyCode===37){
+          state=this.changeLeft();
+        }else if(e.keyCode===38){
+           state=this.changeTop();
+        }else if(e.keyCode===39){
+           state=this.changeRight();
+        }else if(e.keyCode===40){
+           state=this.changeBottom();
+        }
+        if(state){
+            this.setState(state);
+          this.props.flush(this.state);
+          }
+    },
+    changeLeft:function(){
+       var state=this.state;
+       var losed=state.losed;
+
+       if(losed){
+          state.losed=losed-1;
+          return state
+       }
+       return ;
+    },
+    changeTop:function(){
+       var state=this.state;
+       var losed=state.losed;
+     
+       if(losed>state.col-1){
+           state.losed=losed-state.col
+          return state
+       }
+         return ;
+    },
+    changeRight:function(){
+       var state=this.state;
+       var losed=state.losed;
+       var max=state.row*state.col-1;
+       if(losed<max){
+          state.losed=losed+1
+          return state
+       }
+       return
+    },
+    changeBottom:function(){
+       var state=this.state;
+       var max=state.row*state.col-1;
+       var losed=state.losed;
+       if(losed+state.col<max+1){
+          state.losed=losed+state.col
+          return state
+       }
+      return
+    }
+});
+
+
+ var Console=React.createClass({
+   mixins: [React.addons.LinkedStateMixin],
+  getInitialState : function () {
+    return {
+      row :5,
+      col:5,
+      losed:24
+    };
+  },
+  render:function(){
+    return (<form className="console">
+              <div>rows:<input type="text" valueLink={this.linkState('row')}  /></div>
+              <div>cols:<input type="text" valueLink={this.linkState('col')} /></div>
+              <div>losed:<input type="text" valueLink={this.linkState('losed')}  /></div>
+            </form>)
+  },
+  componentDidUpdate:function(){
+      this.props.flush(this.state);
+    return true;
+  }
+ });
+
+var Controller=React.createClass({
+  render:function(){
+    return  (<div>
+      <Boxs flush={this.flushConsole} ref="box"></Boxs>
+      <Console flush={this.flushBox} ref="console"></Console>
+      </div>)
+  },
+  flushBox:function(state){
+      this.refs.box.setState(state);
+  },
+  flushConsole:function(state){
+     this.refs.console.setState(state);
+  }
+})
+
+
+
+React.render(
+  <Controller  />
+  , document.body
+);
+</script>
+
+</html>
