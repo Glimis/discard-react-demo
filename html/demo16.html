@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <title>React.render</title>
+    <script src="../../build/react.js"></script>
+    <script src="../../build/react-with-addons.min.js"></script>
+    
+    <script src="../../build/JSXTransformer.js"></script>
+    <script src="../../build/jquery.js"></script>
+
+    <link rel="stylesheet/less" href="box.less" />
+     <script src="../../build/less.js"></script>
+</head>
+
+<body>
+
+</body>
+
+<script type="text/jsx">
+var Cell = React.createClass({
+  render: function() {
+        var props=this.props;
+        var choose=props.box.choose;
+        var cell=props.cell;
+
+        if(choose.x==cell.x&&choose.y==cell.y){
+          return (<div className='box losed'>{cell.text}</div>)
+        }else{
+          return (<div className='box' >{cell.text}</div>)
+        }
+    }
+});
+
+
+var Row = React.createClass({
+  render: function() {
+      var props=this.props;
+      var row=props.row;
+      var html=[];
+      for(var i=0;i<row.cellData.length;i++){
+        var cellObject=row.cellData[i];
+         html.push(<Cell ref={"col"+i} cell={cellObject} box={this.props.box}/>);
+      }
+      return <div  className="row clearfix">{html}</div>
+    }
+});
+
+
+var Box = React.createClass({
+  //根据初始化参数,渲染模型数据
+  getInitialState : function () {
+    var data=this.props.data;
+    var row=data.row,
+        col=data.col;
+    var rowData=[],textSet=this.getInitContnet(row,col);
+
+    for(var i=0;i<row;i++){
+      var cells=[];
+      var rowObject={
+          y:i,
+          cellData:cells
+      };
+      for(var j=0;j<col;j++){
+        cells.push({
+            x:j,
+            y:i,
+            text:textSet.pop()
+        })
+      }
+   
+      rowData.push(rowObject);
+    }
+
+    data.rowData=rowData;
+    return data;
+  },
+  //随机文本内容
+  getInitContnet:function(row,col){
+      var data=[],tem=[],rdata=[];
+      for(var i=0,len=row*col;i<len;i++)data.push(i);
+        while(data.length>0){
+            rdata.push(data.splice(~~(Math.random()*data.length),1)[0]);
+        }
+        return rdata;
+  },
+  render: function() {
+      var state=this.state;
+      
+      var rowData=this.state.rowData,
+          html=[];
+      for(var i=0;i<rowData.length;i++){
+          var rowObject=rowData[i];
+          html.push(<Row ref={"row"+i} row={rowObject} box={state} />);
+      }
+      return <div  tabIndex="-1" onKeyDown={this.onKeyDown} className="boxs">{html}</div>
+    },
+    onKeyDown:function(e){
+      var state;
+        if(e.keyCode===37){
+          state=this.changeContent(0,1,0,0);
+        }else if(e.keyCode===38){
+         state=this.changeContent(0,0,1,0);
+        }else if(e.keyCode===39){
+           state=this.changeContent(0,0,0,1);
+          
+        }else if(e.keyCode===40){
+            state=this.changeContent(1,0,0,0);
+           
+        }
+        if(state){
+          this.setState(state);
+        }
+    },
+    changeContent:function(up,right,down,left){
+      
+          var state=this.state;
+          var choose=state.choose;
+          //当前选择坐标
+          var x=choose.x,y=choose.y,
+              text=this.refs["row"+y].refs["col"+x].props.cell.text;
+          //交互坐标
+          var _x=x-left+right,
+              _y=y+down-up;
+          //交换坐标限制
+          var maxX=state.col-1,
+              maxY=state.row-1;
+          _x=(_x>0)?(_x>maxX?maxX:_x):0;
+          _y=(_y>0)?(_y>maxY?maxY:_y):0;
+
+          var _text=this.refs["row"+_y].refs["col"+_x].props.cell.text;
+          debugger
+          if(text!=_text){
+               state.rowData[y].cellData[x].text=_text;
+               state.rowData[_y].cellData[_x].text=text;
+               state.choose.x=_x;
+               state.choose.y=_y;
+          }
+          return state;
+    }
+});
+
+var data={
+  row:3,
+  col:3,
+  choose:{
+    x:2,
+    y:2
+  }
+}
+React.render(
+  <Box data={data}  />
+  , document.body
+);
+</script>
+
+</html>
