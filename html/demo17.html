@@ -9,18 +9,26 @@
     
     <script src="../../build/JSXTransformer.js"></script>
     <script src="../../build/jquery.js"></script>
+	 <script src="../../build/eventemitter2.js"></script>
 
     <link rel="stylesheet/less" href="box.less" />
-     <script src="../../build/less.js"></script>
+    <script src="../../build/less.js"></script>
 
      
 </head>
 
 <body>
-
+<div>
+<div id="box"></div>
+<div id="console">
+  
+  
+</div>
+</div>
 </body>
 
 <script type="text/jsx">
+var emitter=new EventEmitter2();
 var Cell = React.createClass({
   render: function() {
         var props=this.props;
@@ -89,7 +97,6 @@ var Box = React.createClass({
   },
   render: function() {
       var state=this.state;
-      
       var rowData=this.state.rowData,
           html=[];
       for(var i=0;i<rowData.length;i++){
@@ -139,20 +146,61 @@ var Box = React.createClass({
                state.choose.y=_y;
           }
           return state;
-    }
+    },
+  componentDidUpdate:function(){
+  	emitter.emit("console:flush",this.state);
+  }
 });
 
-var data={
-  row:3,
-  col:3,
-  choose:{
-    x:2,
-    y:2
+ var Console=React.createClass({
+ 	componentWillMount:function(){
+ 		var me=this;
+			emitter.on("console:flush",function(state){
+					me.setState(state);
+			});
+ 	},
+  getDefaultProps : function () {
+  	return {
+	  		data:{
+	      row :5,
+	      col:5,
+	      choose:{
+	      	x:4,
+	      	y:4
+	      }
+    	}
+  	}
+  },
+  render:function(){
+    return (<form className="console">
+              <div>rows:<input type="text" value={this.props.data.row}  /></div>
+              <div>cols:<input type="text" value={this.props.data.col} /></div>
+              <p>选中点</p>
+              <div>x:<input type="text" value={this.props.data.choose.x}  /></div>
+              <div>y:<input type="text" value={this.props.data.choose.y}  /></div>
+            </form>)
+  },
+  componentDidUpdate:function(){
+  	emitter.emit("box:flush",this.state);
   }
-}
+ });
+
+var data={
+      row :5,
+      col:5,
+      choose:{
+      	x:4,
+      	y:4
+      }
+    };
 React.render(
-  <Box data={data}  />
-  , document.body
+  <Console  data={data}/>
+ , document.getElementById('console')
+);
+
+React.render(
+  <Box data={data} />
+  , document.getElementById('box')
 );
 </script>
 
