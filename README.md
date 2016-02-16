@@ -218,5 +218,3 @@ EventEmitter2是一个对象,将其与组件对象结合(继承or组合),就可�
 * 继承:同时使用两个对象的方法的方式,但react组件对象的创建并非传统的new 形式,无法找到其prototype...
 * 组合:组合是对继承的一种补充(拓展),也是由于组件对象的特殊创建方式,可能每次都需要创建一次EventEmitter2对象或者在声称一个对象,内部组合react+ EventEmitter2
 
-## demo18 －－flux 辅助架构
-组合react+ EventEmitter2的方式使用起来并不方便,官网提供的一种更好的体验,flux
