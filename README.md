@@ -218,3 +218,50 @@ EventEmitter2是一个对象,将其与组件对象结合(继承or组合),就可�
 * 继承:同时使用两个对象的方法的方式,但react组件对象的创建并非传统的new 形式,无法找到其prototype...
 * 组合:组合是对继承的一种补充(拓展),也是由于组件对象的特殊创建方式,可能每次都需要创建一次EventEmitter2对象或者在声称一个对象,内部组合react+ EventEmitter2
 
+## html-box1-webpack
+使用es6并通过webpack构建react项目,通过```extends React.Component```描述为react对es6的支持,故
+
+* getInitialState中的内容应该写在constructor中   
+* 绑定需要追加bind,用以替换this,性质上类似call,但会传入默认参数
+
+## html-box2-redux
+基于redux的业务处理架构   
+通过props```元数据```,获取stats```数据```是react的开发思路,react组件依赖state的变化而变化(而非直接通过事件),故此业务描述主要在state中,讲业务提取出来,通过```接口```的方式与组件交互即为redux所做的   
+此处顾名思义的将box中的业务逻辑(按钮事件)丢给了reduxs(action),类似于传统mvc,接口只依赖交互数据,不会获取对方的具体信息,比如reduxs中,不会再得到refs对象
+
+* store
+
+经典store:尤其存在各种grid/tabel中,model为单个对象,store的model的集合,store包含对model的各种集合处理(排序,过滤,增删改)
+
+mvvm:主要指的是vm,一个控制层(页面)包含一个vm,vm为各种对象的集合(并非单一的对象)
+
+react:类似于vm,react一个页面仅包含一个store,store为各个对象的集合(依然为对象而非数组)
+
+* reducer
+
+类似map/reduce中的reducer,通过包含某种结构的数据(action),组装成所需数据(依然为action,仅作组装,不破坏原有数据)
+
+## html-box2-es6
+* 使用es6写法(typescript)
+* <a href="http://www.jianshu.com/p/6fa2b21f5df3">展示组件与容器组件分离</a>
+
+### 展示组件
+
+* 只关心它们的样子。
+* 可能同时包含子级容器组件和展示组件，一般含DOM标签和自定的样式。
+* 通常用this.props.children来包含其他组件
+* 不依赖app其它组件，比如flux的actions和stores
+* 不会定义数据如何读取，如何改变
+* 只通过this.props接受数据和回调函数
+* 很少有自己的状态变量，即使有，也是UI的状态变量，比如toggleMenuOpen,InputFocus
+* 一般是函数级组件，除非它们需要状态，lifecycle hooks，优化处理。
+
+### 容器组件
+* 只关心它们的运作方式。
+* 可能同时包含子级容器组件和展示组件，但大都不含DOM标签，而含他们自己所用的wrapping div，从不用自己的样式。
+* 为展示组件或其他组件提供数据和方法。
+* 调用Flux的actions，并且将其作为展示组件的回调函数。
+* 维持许多状态变量，通常充当一个数据源。
+* 通常由高阶组件生成，比如Redux里的connect()，Relay里的createContainer()，Flux Utils里的C* ontainer.create()，而非手工写出（译者：可能在meteor中数据是例外吧）
+
+个人认为最主要的区别在于容器组件用于与```接口```交互
