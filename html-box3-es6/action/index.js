@@ -27,3 +27,23 @@ export function BoxRight(text) {
 		text
 	}
 }
+
+export function ChangeRow(num) {
+	return {
+		type: types.CHANGE_ROW,
+		num
+	}
+}
+
+export function ChangeCol(num) {
+	return {
+		type: types.CHANGE_COL,
+		num
+	}
+}
+
+export function BoxFlush() {
+	return {
+		type: types.BOX_FLUSH
+	}
+}

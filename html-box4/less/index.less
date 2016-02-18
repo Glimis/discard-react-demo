@@ -1,0 +1,31 @@
+.boxs {
+     float: left;
+    .row {
+        width: 100%;
+        .box {
+            border: 1px solid black;
+            height: 100px;
+            width: 100px;
+            line-height: 100px;
+            text-align: center;
+            float: left;
+            &.active {
+                background: gray
+            }
+        }
+    }
+}
+
+.clearfix:after {
+    content: "";
+    display: block;
+    clear: both;
+    // height: 10;
+}
+
+
+
+.console{
+    float: left
+}
+

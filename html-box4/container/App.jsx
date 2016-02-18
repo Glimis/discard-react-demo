@@ -1,9 +1,24 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Box from '../component/Box'
+import Header from '../container/Header'
+import List from '../container/VisableList'
+import Foot from '../component/Foot'
 import * as Action from '../action'
 
+
+class App extends Component {
+  render() {
+     const {todos} = this.props;
+    return (
+      <div>
+         <Header></Header>
+         <List items={todos}></List>
+         <Foot></Foot>
+      </div>
+    )
+  }
+}
 
 
 const mapStateToProps = function(state, ownProps) {
@@ -26,7 +41,8 @@ const mapDispatchToProps = function(dispatch, ownProps) {
   }
 }
 
+
 export default connect(
-mapStateToProps,
+  mapStateToProps,
   mapDispatchToProps
-)(Box)
+)(App)

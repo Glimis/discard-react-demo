@@ -2,12 +2,13 @@ import {
 	combineReducers
 }
 from 'redux'
-import choose from './choose'
-import control from './control'
+
+import boxdata from './boxdata'
 
 const BoxApp = combineReducers({
-	choose,
-	control
+
+	boxdata
 })
+
 
 export default BoxApp
