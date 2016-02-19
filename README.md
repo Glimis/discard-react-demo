@@ -329,4 +329,6 @@ react依赖state描述组件,总体上看相当于(使用文件夹描述)
 
 也就是```mapDispatchToProps```默认传递```dispatch```
 
+component中可以通过```dispatch```发送请求,也可以通过```container```封装的方法发送请求,个人倾向第二种－。－
+
 

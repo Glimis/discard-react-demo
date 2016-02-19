@@ -1,0 +1,7 @@
+export const BOX_UP = 'BOX_UP'
+export const BOX_DOWN = 'BOX_DOWN'
+export const BOX_RIGHT = 'BOX_RIGHT'
+export const BOX_LEFT = 'BOX_LEFT'
+export const CHANGE_ROW = 'CHANGE_ROW'
+export const CHANGE_COL = 'CHANGE_COL'
+export const BOX_FLUSH = 'BOX_FLUSH'
