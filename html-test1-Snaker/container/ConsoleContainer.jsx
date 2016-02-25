@@ -17,7 +17,7 @@ const mapDispatchToProps = function(dispatch, ownProps) {
     	dispatch(Action.ChangeCol(num));
     },
     changeRow:function(num){
-		dispatch(Action.ChangeRow(num));
+		  dispatch(Action.ChangeRow(num));
     },
     flush(){
     	dispatch(Action.BoxFlush());

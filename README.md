@@ -277,7 +277,8 @@ react:类似于vm,react一个页面仅包含一个store,store为各个对象的�
 1.通过```{ connect } from 'react-redux'```关联组件接受```store```(```reducer```中的内容)    
 2.通过```mapStateToProps``` ```mapDispatchToProps```创建```接口```实现(props的属性与方法)   
 3.```mapStateToProps```中通过普通函数创建属性
-3.```mapDispatchToProps```中创建函数,通过```dispatch(Action.BoxLeft());```发送状态变更(事件..)
+3.```mapDispatchToProps```中创建函数,通过```dispatch(Action.BoxLeft());```发送状态变更(事件..)   
+注:```mapStateToProps```内的逻辑依然可以丢在reducer中,使用时调用并传递state就可以了
 
 * component
 
@@ -299,7 +300,8 @@ action工厂,```dispatch```的辅助对象
 2.内部通过```action.type```返回不同值   
 3.```index```文件中通过1,返回整体state(架构中处理)   
 4.其他文件中通过2,返回state的局部部分   
-5.性质上类似map/reducer中的reducer,将复杂的state拆解为无数个独立的reducer,并在```index```中做关联处理   
+5.性质上类似map/reducer中的reducer,将复杂的state拆解为无数个独立的reducer,并在```index```中做关联处理    
+  
 
 <hr>
 react依赖state描述组件,总体上看相当于(使用文件夹描述)
@@ -331,4 +333,13 @@ react依赖state描述组件,总体上看相当于(使用文件夹描述)
 
 component中可以通过```dispatch```发送请求,也可以通过```container```封装的方法发送请求,个人倾向第二种－。－
 
+## html-box5-ajax
+异步练习
 
+初始化如componentDidMount丢在container中比较方便,异步处理依赖额外插件
+
+
+## html-test1-Snaker
+贪吃蛇练习
+
+reducers中返回的data需要深拷贝后进行修改,否则无法识别修改(出发render),发现问题后,很蛋疼的追加了随机变量。。。   

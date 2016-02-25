@@ -3,39 +3,79 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Box from '../component/Box'
 import * as Action from '../action'
+import {move} from '../reducers/index'
+
+function isCross(x,y,boxdata){
+  if(x<0||y<0){
+    return true;
+  }
+
+  if(x>(boxdata.col-1)||y>(boxdata.row-1)){
+    return true;
+  }
+
+  return false;
+}
 
 function makeSnaker(state){
-   // var state=Object.assign({}, state)
-   var {snaker}=state;
-   var {rowData,food}=state.boxdata;
-   
+   var {boxdata,snaker,food}=state;
+   //没有深拷贝的失误
+      state.a=Math.random();
+   // var state=Object.assign({}, state);
    //清空画板
+   var rowData=boxdata.rowData;
    if(rowData){
      rowData.map(function(value){
           var {cellData}=value;
           cellData.map(function(cellObject){
               cellObject.choose=false;
+               cellObject.food=false;
+                cellObject.header=false;
+               
           })
      })
    }
 
    if(snaker){
-    var body=snaker.body;
-    //蛇头是否为食物
-    var flag=snaker.eatFood(snaker,food);
-    if(flag){
-      // snaker.createFood();
-    }
-   snaker.body.map(function(value){
-      var {x,y}=value;
-      rowData[y].cellData[x].choose=true
-   })
+    var error={};
+       snaker.map(function(value){
+          var {x,y}=value;
+          if(isCross(x,y,boxdata)){
+            //越界
+              console.log('越界');
+              error={
+                msg:'game over',
+                type:'越界'
+              }
+              return  false;
+          }else{
+            if(rowData[y].cellData[x].choose){
+              console.log('咬到自己了')
+
+              error={
+                msg:'game over',
+                type:'咬到自己了'
+              }
+              return  false;
+            }else{
+              rowData[y].cellData[x].choose=true
+            }
+          }
+       })
   }
-   
-   rowData[food.y].cellData[food.x].choose=true
-   rowData[food.y].cellData[food.x].food=true
+
+  
+  if(error.msg){
+    return error;
+   }else{
+    rowData[snaker[0].y].cellData[snaker[0].x].header=true
+    rowData[food.y].cellData[food.x].choose=true
+    rowData[food.y].cellData[food.x].food=true
 
    return state;
+   }
+
+  
 }
 
 

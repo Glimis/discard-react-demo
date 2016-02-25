@@ -2,29 +2,14 @@ import {
   BOX_UP, BOX_DOWN, BOX_RIGHT, BOX_LEFT, CHANGE_ROW, CHANGE_COL, BOX_FLUSH
 }
 from '../constant/BoxType'
-
 const initialState = {
-  row: 10,
-  col: 10,
-  food: {
-    x: 3,
-    y: 3
-  }
+  row: 3,
+  col: 3
 }
 
 
-
 export default function change(state = initialState, action) {
-  switch (action.type) {
-    case CHANGE_ROW:
-      return InitData(initialState, action.num)
-    case CHANGE_COL:
-      return InitData(initialState, undefined, action.num)
-    case BOX_FLUSH:
-      return InitData(initialState)
-    default:
-      return InitData(initialState)
-  }
+  return InitData(initialState)
 }
 
 function move(state, up, right, down, left) {
@@ -48,7 +33,7 @@ function move(state, up, right, down, left) {
       y: newFirstNode_y
     })
     //去蛇尾
-  console.log()
+
   if (!newFirstNode.food) {
     snaker.pop();
   }

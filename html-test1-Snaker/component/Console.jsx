@@ -3,6 +3,7 @@ import React from 'react'
 export default class Console extends React.Component{
 	render(){
 		var {changeRow,changeCol,flush}=this.props;
+		
 		var {col,row,choose_x,choose_y}=this.props.boxdata;
 		
 		return (<form className="console">
