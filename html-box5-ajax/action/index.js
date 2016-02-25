@@ -1,15 +1,14 @@
-import * as types from '../constant/BoxType'
+import fetch from 'isomorphic-fetch'
 
-export const addTodo = (text) => {
-	return {
-		type: 'ADD_TODO',
-		text
-	}
-}
-
-export const setVisibilityFilter = (filter) => {
-	return {
-		type: 'SET_VISIBILITY_FILTER',
-		filter
+export const ChangePage = (num) => {
+	return function(dispatch) {
+		return fetch(`/moke/${num}.json`)
+			.then(response => response.json())
+			.then(function(json) {
+				dispatch({
+					type: 'ChangePage',
+					json
+				})
+			})
 	}
 }

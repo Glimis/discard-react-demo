@@ -5,16 +5,21 @@ import Gird from '../component/Gird'
 import Cell from '../component/Cell'
 import PageTool from '../component/PageTool'
 import Column from '../component/Column'
-// import * as Action from '../action'
+import * as Action from '../action'
 
 
 class App extends Component {
+    componentDidMount() {
+      var {init} = this.props;
+      init();
+    }
+    
   render() {
-    var {data,rowsCount,pageNum,page}=this.props.grid;
+    var {data,rowsCount,pageNum,page,msg}=this.props.grid;
     var {changePage}=this.props;
     return (
       <div>
-        <Gird data={data}>
+        <Gird data={data} msg={msg}>
 
           <Column
           header={<Cell>姓名</Cell>}
@@ -63,6 +68,9 @@ const mapDispatchToProps = function(dispatch, ownProps) {
   return {
     changePage:function(i){
         dispatch(Action.ChangePage(i));
+    },
+    init:function(){
+       dispatch(Action.ChangePage(1));
     }
   }
 }

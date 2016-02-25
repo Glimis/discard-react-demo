@@ -1,13 +1,11 @@
 import '../less/index.less'
 import React from 'react'
 import App from '../container/App'
-import {createStore} from 'redux'
-import Reducers from '../reducers'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
+import indexStroe from '../store/index'
 
-const store = createStore(Reducers)
-
+const store = indexStroe()
 render(
   <Provider store={store}>
     <App   />

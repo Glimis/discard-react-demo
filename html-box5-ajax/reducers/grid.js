@@ -1,23 +1,13 @@
 const defaultData = {
-  rowsCount: 20,
-  pageNum: 10,
-  page: 1,
-  data: [{
-    name: 'name1',
-    age: 'age1',
-    sex: 'sex1'
-  }, {
-    name: 'name2',
-    age: 'age2',
-    sex: 'sex2'
-  }]
+  msg: '初始化ing'
 }
 
 
 export default function(state, action) {
 
   switch (action.type) {
-    case 'ADD_TODO':
+    case 'ChangePage':
+      return action.json;
     default:
       return defaultData
   }
