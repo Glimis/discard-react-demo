@@ -343,3 +343,7 @@ component中可以通过```dispatch```发送请求,也可以通过```container``
 贪吃蛇练习
 
 reducers中返回的data需要深拷贝后进行修改,否则无法识别修改(出发render),发现问题后,很蛋疼的追加了随机变量。。。   
+
+
+## html-test2-layout
+布局封装练习

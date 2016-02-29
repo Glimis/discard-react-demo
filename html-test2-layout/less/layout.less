@@ -1,0 +1,48 @@
+@south-height:200px;
+@north-height: 200px;
+
+@east-width :200px;
+@west-width: 200px;
+
+.border{
+	.border-center{
+	    top: @north-height;
+	    background: #555;
+	    width: 600px;
+  		margin: 0 auto; 
+	}
+
+	.border-north{
+	      height: @north-height;
+	  top: 0;
+	  position: absolute;
+	  background: #888;
+	  width: 100%;
+	}
+
+
+	.border-south{
+	    height: @south-height;
+  bottom: 0;
+  position: absolute;
+  background: #888;
+  width: 100%;
+	}
+
+
+
+	.border-east{
+		right:0px;
+	    width: @east-width;
+  		position: absolute;
+  		background: #eee;
+  		height: 100%;
+	}
+
+	.border-west{
+	    width: @west-width;
+  		position: absolute;
+  		background: #eee;
+  		height: 100%;
+	}
+}
