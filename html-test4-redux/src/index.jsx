@@ -27,9 +27,9 @@ test("test1", function() {
 const store2 = test2Store()
 
 test("test2", function() {
-	var state=store2.getState();
-    deepEqual(state.result.toArray(), [1,2],'result长度错误');
-    deepEqual(state.entities.users.get("1"),{
+
+    deepEqual(store2.getState().result.toArray(), [1,2],'result长度错误');
+    deepEqual(store2.getState().entities.users.get("1"),{
 		id: 1,
 		name: 'Dan'
 	},'users读取错误');
@@ -40,8 +40,8 @@ test("test2", function() {
     	name:'liu'
     });
 
-    debugger
-    deepEqual(state.entities.users.get("1"),{
+    
+    deepEqual(store2.getState().entities.users.get("1"),{
 		id: 1,
 		name: 'liu'
 	},'users读取错误');
