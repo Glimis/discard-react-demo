@@ -342,8 +342,159 @@ component中可以通过```dispatch```发送请求,也可以通过```container``
 ## html-test1-Snaker
 贪吃蛇练习
 
-reducers中返回的data需要深拷贝后进行修改,否则无法识别修改(出发render),发现问题后,很蛋疼的追加了随机变量。。。   
+reducers中返回的data需要深拷贝后进行修改,否则无法识别修改(出发render),发现问题后,很蛋疼的追加了随机变量。。。     
+react下input真巨坑
 
 
 ## html-test2-layout
 布局封装练习
+受jq组讲影响太大,妄想将布局组件提出。。。感觉失败了
+
+## html-test3-api
+api查看封装   
+初次习惯讲所有的信息丢在root中-->垂直思维   
+
+
+## html-test4-redux
+redux单独练习   
+
+###immutable
+react对state的比较来自于```newstate===oldstate```而非更复杂的内容比较(这完全是暗示,请使用immutable。。。)   
+<a href="https://www.zhihu.com/question/28016223">使用immutable的好处</a>   
+
+###范式结构
+
+<a href="https://github.com/gaearon/normalizr">范式结构</a>
+
+redux更建议使用范式结构,用以讲逻辑细化...
+
+* 1NF:无重复的域。
+
+```
+{
+	array:'a,b,c'
+}
+```
+用,分割数组的临时解决方案。。。
+
+* 2NF:建议关键字为单个而非组合(消除子函数依赖)
+
+```
+{
+	num:'001',//学号
+	name:'x',//姓名
+	age:18,//年龄
+	subject:'语文',//学科
+	score:20,//分数
+	fullscore:100//总分
+}
+```
+使用name与subject可做唯一约束,但会照常
+
+
+1.数据冗余-->fullscore与name,age的无限重复   
+2.更新异常-->更新fullscore,name,age容易遗漏   
+3.插入异常-->无法包含新的课程or学生(均无关联的状况)   
+4.删除异常-->删除学生相关的信息,可能会讲学科信息删除   
+
+```
+{
+	student_subject:[{
+		studnet:1,
+		subject:1,
+		score:20
+	}],
+	students:[1],
+	subjects:[1],
+	student:{
+		1:{
+			num:'001',
+			name:'x',
+			age:18
+		}
+	},
+	subject:{
+		1:{
+			name:'语文',
+			fullscore:100
+		}
+	}
+}
+```
+2NF建议其修改为3张表,学生,学科和依赖关系,以上描述是为了方便前端更
+
+* 3NF:无冗余(传递冗余)
+
+依然是围绕着2NF中处理的四个问题
+
+* BCNF:建议使用无意义id
+
+依然组合id惹的祸,建议将组合id的关系提出
+
+
+<a href="https://github.com/gaearon/normalizr"> normalizr </a>辅助范式转换的工具
+
+```
+[{
+  id: 1,
+  title: 'Some Article',
+  author: {
+    id: 1,
+    name: 'Dan'
+  }
+}, {
+  id: 2,
+  title: 'Other Article',
+  author: {
+    id: 1,
+    name: 'Dan'
+  }
+}]
+```
+
+``` 
+{
+  result: [1, 2],
+  entities: {
+    articles: {
+      1: {
+        id: 1,
+        title: 'Some Article',
+        author: 1
+      },
+      2: {
+        id: 2,
+        title: 'Other Article',
+        author: 1
+      }
+    },
+    users: {
+      1: {
+        id: 1,
+        name: 'Dan'
+      }
+    }
+  }
+}
+```
+
+### Reducer
+类似于map/reduce,配合范式规范,讲巨大的逻辑划分给各个小的reduce,最终返回store中的数据
+
+### Store
+store,对数据的维护,其中数据来自reducer的返回结果,本身也可以通过```dispatch```出发reducer
+
+### Action
+```dispatch```发送的命令,其内部必须包含type
+
+
+
+
+
+
+## html-test5-nav
+公司项目导航
+
+## html-test6-nginx
+nginx项目监控
+
