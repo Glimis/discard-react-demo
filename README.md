@@ -358,11 +358,11 @@ api查看封装
 ## html-test4-redux
 redux单独练习   
 
-###immutable
+### immutable
 react对state的比较来自于```newstate===oldstate```而非更复杂的内容比较(这完全是暗示,请使用immutable。。。)   
 <a href="https://www.zhihu.com/question/28016223">使用immutable的好处</a>   
 
-###范式结构
+### 范式结构
 
 <a href="https://github.com/gaearon/normalizr">范式结构</a>
 
@@ -487,13 +487,9 @@ store,对数据的维护,其中数据来自reducer的返回结果,本身也可�
 ### Action
 ```dispatch```发送的命令,其内部必须包含type
 
-
-
-
-
-
 ## html-test5-nav
-公司项目导航
+公司内部项目导航
+
 
 ## html-test6-nginx
 nginx项目监控
